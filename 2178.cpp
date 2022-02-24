@@ -1,39 +1,72 @@
-#include <cstdio>
-#include <queue>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<queue>
 using namespace std;
-int n,m;
-int a[100][100];
-bool check[100][100];
-int dist[100][100];
-int dx[] = {0, 0, 1, -1};
-int dy[] = {1, -1, 0, 0};
-int main() {
-    scanf("%d %d",&n,&m);
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<m; j++) {
-            scanf("%1d",&a[i][j]);
-        }
-    }
-    queue<pair<int,int>> q;
-    q.push(make_pair(0, 0));
-    check[0][0] = true;
-    dist[0][0] = 1;
-    while (!q.empty()) {
-        int x = q.front().first;
-        int y = q.front().second;
+char v[101][102];
+bool ck[101][101] = {true}; // true로 초기화가 안되나봐
+int cnt[101][101];
+
+int bfs(int n, int m){
+    queue< pair<int,int> > q;
+    q.push(make_pair(1,1));
+    
+    while(!q.empty()){
+        ck[1][1] = true;
+        int x = q.front().first,y = q.front().second;
         q.pop();
-        for (int k=0; k<4; k++) {
-            int nx = x+dx[k];
-            int ny = y+dy[k];
-            if (0 <= nx && nx < n && 0 <= ny && ny < m) {
-                if (check[nx][ny] == false && a[nx][ny] == 1) {
-                    q.push(make_pair(nx, ny));
-                    dist[nx][ny] = dist[x][y] + 1;
-                    check[nx][ny] = true;
-                }
+        cnt[1][1] = 1;
+        
+
+        if(y+1 <= m){
+            if(v[x][y+1] == '1' && !ck[x][y+1]){
+                cnt[x][y+1] = cnt[x][y] + 1;
+                if(x == n && y+1 == m) return cnt[x][y+1];//x+y가 cnt와 같음
+                q.push(make_pair(x,y+1));
+                ck[x][y+1] = true;
             }
         }
+        if(x+1 <= n){
+            if(v[x+1][y] == '1'&& !ck[x+1][y]){
+                cnt[x+1][y] = cnt[x][y] + 1;
+                if(x+1 == n && y == m) return cnt[x+1][y];
+                q.push(make_pair(x+1,y));
+                ck[x+1][y] = true;
+            }
+        }
+        if(x-1 >= 1){
+            if(v[x-1][y] == '1'&& !ck[x-1][y]){
+                cnt[x-1][y] = cnt[x][y] + 1;
+                q.push(make_pair(x-1,y));
+                ck[x-1][y] = true;
+            }
+        }
+        if(y-1 >= 1){
+            if(v[x][y-1] == '1'&& !ck[x][y-1]){
+                cnt[x][y-1] = cnt[x][y] + 1;
+                q.push(make_pair(x,y-1));
+                ck[x][y-1] = true;
+            }
+        }
+
+
+
+
+        
+        
     }
-    printf("%d\n",dist[n-1][m-1]);
-    return 0;
+    return 100;
+    
+
+}
+int main(void){
+    int n,m;
+    cin >> n >> m;
+    // vector<char> v[n+1]; stl활용을 좀더 공부해볼 필요가 있겠음 사용이 필요할 때
+    for(int i = 1; i <= n; i++){
+        cin >> &v[i][1];
+    }
+    
+
+    cout << bfs(n,m);
 }

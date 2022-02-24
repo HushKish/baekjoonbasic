@@ -93,7 +93,8 @@
 #include <iostream>
 #include <tuple>
 #include <queue>
-#include <string>
+#include <cstring>
+
 using namespace std;
 int d[1001][1001];
 int main() {
@@ -119,11 +120,11 @@ int main() {
             d[s-1][c] = d[s][c] + 1;
             q.push(make_pair(s-1, c));
         }
-    }
-    int ans = -1;
+    }//내 코드는 이 루프가 안끝나게 설계되어 적절한 값이되면 return하여 종료하는 논리로 코딩되어있음
+    int ans = -1; // 양수인 최솟값을 구하는 문제에서 초기값을 -1로 세팅
     for (int i=0; i<=n; i++) {
         if (d[n][i] != -1) {
-            if (ans == -1 || ans > d[n][i]) {
+            if (ans == -1 || ans > d[n][i]) { // 내가 i == 0으로 따로 처리해준 것을 ||을 이용해서 묶음
                 ans = d[n][i];
             }
         }
