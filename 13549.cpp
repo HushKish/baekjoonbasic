@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <deque>
+
 using namespace std;
 bool c[1000000];
 int d[1000000];
