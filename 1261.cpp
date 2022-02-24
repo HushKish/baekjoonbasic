@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <deque>
+
 using namespace std;
 int d[555][555];
 int a[555][555];
